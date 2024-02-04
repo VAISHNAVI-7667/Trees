@@ -1,10 +1,3 @@
-/******************************************************************************
-
-                            Online Java Compiler.
-                Code, Compile, Run and Debug java program online.
-Write your code in this editor and press "Run" button to execute it.
-
-*******************************************************************************/
 import java.util.*;
 class Node{
     int data;
@@ -56,20 +49,71 @@ public class Main
 		
 		//Find the diametre of a binary tree
 		
-		int diametre = findDiametre(root);
-        System.out.print("diametre of the tree is "+ diametre);
+		int dia[] = new int[1];
+		findDiametre(root,dia);
+        System.out.print("\n\nDiametre of the tree is "+ dia[0]);
+        
+        //Boundary traversal of trees
+        System.out.print("\n\nBoundary traversal of trees : ");
+        ArrayList<Integer> boundary = new ArrayList<>();
+        boundary.add(root.data);
+        addLeft(root,boundary);
+        addLeaf(root,boundary);
+        addRight(root,boundary);
+        for(int i=0;i<boundary.size();i++)
+        {
+            System.out.print(boundary.get(i)+" ");
+        }
 	}
-	public int findDiametre(Node root)
+	public static void addLeft(Node root,ArrayList<Integer> arr)
 	{
-	    if(root == null) return 0;
+	    Node curr = root.left;
+	    while(curr!=null)
+	    {
+	        if(!isLeaf(curr)) arr.add(curr.data);
+	        if(curr.left!=null) curr = curr.left;
+	        else curr = curr.right;
+	    }
+	}
+	public static void addLeaf(Node root,ArrayList<Integer> arr){
+	    if(isLeaf(root)){
+	        arr.add(root.data);
+	        return;
+	    }
+	    if(root.left!=null) addLeaf(root.left,arr);
+	    if(root.right!=null) addLeaf(root.right,arr);
+	}
+	public static void addRight(Node root,ArrayList<Integer> arr)
+	{
+	    ArrayList<Integer> temp = new ArrayList<>();
+	    Node curr = root.right;
+	    while(curr!=null)
+	    {
+	        if(!isLeaf(curr)) temp.add(curr.data);
+	        if(curr.right!=null) curr = curr.right;
+	        else curr = curr.left;
+	    }
+	    for(int i=temp.size()-1;i>=0;i--)
+	    {
+	        arr.add(temp.get(i));
+	    }
+	}
+	public static boolean isLeaf(Node root)
+	{
+	    if(root.left==null && root.right==null) return true;
+	    return false;
+	}
+	public static void findDiametre(Node root,int []dia)
+	{
+	    if(root==null) return;
 	    
 	    int lh = maxDepth(root.left);
 	    int rh = maxDepth(root.right);
 	    
-	    int max = Math.max(max,lh+rh);
+	    dia[0] = Math.max(dia[0],lh+rh);
 	    
-	    findDiametre(root.left);
-	    findDiametre(root.right);
+	    findDiametre(root.left,dia);
+	    findDiametre(root.right,dia);
 	} 
 	
 	public static int check(Node root)
