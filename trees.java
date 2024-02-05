@@ -64,6 +64,24 @@ public class Main
         {
             System.out.print(boundary.get(i)+" ");
         }
+        //Right view of a binary tree
+        System.out.print("\n\nRight view of a binary tree : ");
+        ArrayList<Integer> rView = new ArrayList<>();
+        rightView(root,0,rView);
+        for(int i=0;i<rView.size();i++)
+        {
+            System.out.print(rView.get(i)+" ");
+        }
+	}
+	public static void rightView(Node root,int level,ArrayList<Integer> ans)
+	{
+	    if(root==null) return;
+	    
+	    if(ans.size()==level) ans.add(root.data);
+	    
+	    rightView(root.right,level+1,ans);
+	    rightView(root.left,level+1,ans);
+	    
 	}
 	public static void addLeft(Node root,ArrayList<Integer> arr)
 	{
