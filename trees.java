@@ -72,6 +72,44 @@ public class Main
         {
             System.out.print(rView.get(i)+" ");
         }
+        //Check if a tree is symmetric or not
+        System.out.print("\n\nIs this tree symmetric : "+isSymmetric(root.left,root.right));
+        
+        //Print from root to Node (root,data to find)
+        ArrayList<Integer> path = new ArrayList<>();
+        int data;
+        System.out.print("\n\nEnter the node to find it's path : ");
+        data = sc.nextInt();
+        rootToNode(root,data,path);
+        for(int i=0;i<path.size();i++)
+        {
+            System.out.print(path.get(i)+" ");
+        }
+        
+	}
+	public static boolean rootToNode(Node root,int data,ArrayList<Integer> path)
+	{
+	    if(root == null) return false;
+	    
+	    path.add(root.data);
+	    
+	    if(root.data == data) return true;
+	    
+	    if(rootToNode(root.left,data,path) || rootToNode(root.right,data,path)) return true;
+	    
+	    path.remove(path.size()-1);
+	    
+	    return false;
+	    
+	    
+	}
+	public static boolean isSymmetric(Node left,Node right)
+	{
+	    if(left==null || right==null) return left==right;
+	    
+	    if(left.data!=right.data) return false;
+	    
+	    return isSymmetric(left.left,right.right) && isSymmetric(left.right,right.left);
 	}
 	public static void rightView(Node root,int level,ArrayList<Integer> ans)
 	{
